@@ -121,6 +121,8 @@ ul, ol {
   border: 1px solid #E4E7ED;
   background-color: #FFF;
   width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 textarea.input {
@@ -414,6 +416,15 @@ textarea.input {
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: #1E1F29;
+}
+#errors {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #1E1F29;
+  border-top: 3px solid #D10024;
+  border-bottom: 3px solid #D10024;
+  border-right: 3px solid #D10024;
+  border-left: 3px solid #D10024;
 }
 
 .header-links li {
@@ -1843,8 +1854,21 @@ textarea.input {
 
 .billing-details {
   margin-bottom: 30px;
-}
 
+}
+.billing-details1 {
+  position: relative;
+  max-width: 510px;
+  margin: 30px auto;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+
+}
+.errors1 {
+  color: white;
+
+}
 .shiping-details {
   margin-bottom: 30px;
 }
@@ -2188,3 +2212,45 @@ textarea.input {
     margin-top: 10px;
   }
 }
+/* Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: black;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-top: 3px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
