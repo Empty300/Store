@@ -55,9 +55,22 @@ class UserProfileForm(UserChangeForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
         'class': 'input',
         'readonly': True}))
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
+                                                               'placeholder': "Ваше имя"}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
+                                                              'placeholder': "Ваша фамилия"}))
+    country = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
+                                                               'placeholder': "Страна"}),required=False)
+    city = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
+                                                               'placeholder': "Город"}),required=False)
+    address = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
+                                                               'placeholder': "Адрес"}),required=False)
+    zipcode = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'input',
+                                                               'placeholder': "Почтовый код"}),required=False)
+    telephone = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
+                                                               'placeholder': "Телефон"}),required=False)
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name')
+        fields = ('username', 'email', 'first_name', 'last_name', 'country', 'city',
+                  'address', 'address', 'zipcode', 'telephone')

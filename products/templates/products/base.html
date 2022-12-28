@@ -51,7 +51,7 @@
 					<ul class="header-links pull-right">
                         {% if user.is_authenticated %}
 						<li><div class="dropdown">
-                                <a href="#"><i class="fa fa-user"></i>{{ user.username }}</a>
+                                <a href="{% url 'users:profile' user.id %}"><i class="fa fa-user"></i><strong>{{ user.username }}</strong></a>
                                 <div class="dropdown-content">
                                     <div class="cart-list">
                                         <a href="{% url 'users:profile' user.id %}">Мой профиль</a>
@@ -63,7 +63,7 @@
                         </li>
                             {% if user.is_superuser %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}">Админ-панель</a></li>
-
+                            <li><a class="dropdown-item" href="{% url 'products:scrap' %}">Парсер</a></li>
                             {% endif %}
                         {% else %}
                         <li><a href="{% url 'users:login' %}"><i class="fa fa-user"></i>Войти</a></li>
@@ -84,7 +84,7 @@
 						<!-- LOGO -->
 						<div class="col-md-3">
 							<div class="header-logo">
-								<a href="#" class="logo">
+								<a href="{% url 'index'  %}" class="logo">
 									<img src="{% static '/img/logo.png' %}" alt="">
 								</a>
 							</div>
@@ -308,7 +308,7 @@
 		<script src="{% static 'js/slick.min.js' %}"></script>
 		<script src="{% static 'js/nouislider.min.js' %}"></script>
 		<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
-		<script src="{% static 'js/test_store.js' %}"></script>
+		<script src="{% static 'js/main.js' %}"></script>
 
 	</body>
 </html>

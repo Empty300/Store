@@ -64,7 +64,7 @@
 	/////////////////////////////////////////
 
 	// Product Main img Slick
-	$('#product-test_store-img').slick({
+	$('#product-main-img').slick({
     infinite: true,
     speed: 300,
     dots: false,
@@ -82,7 +82,7 @@
     focusOnSelect: true,
 		centerPadding: 0,
 		vertical: true,
-    asNavFor: '#product-test_store-img',
+    asNavFor: '#product-main-img',
 		responsive: [{
         breakpoint: 991,
         settings: {
@@ -97,7 +97,7 @@
 	// Product img zoom
 	var zoomMainProduct = document.getElementById('product-main-img');
 	if (zoomMainProduct) {
-		$('#product-test_store-img .product-preview').zoom();
+		$('#product-main-img .product-preview').zoom();
 	}
 
 	/////////////////////////////////////////

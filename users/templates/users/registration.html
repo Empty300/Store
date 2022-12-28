@@ -1,58 +1,52 @@
 {% extends 'products/base.html' %}
 {% load static %}
 {%  block content %}
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="billing-details1">
+                    <p>Регистрация</p>
+                    {% if form.errors %}
+                    <div id="errors">
+                        <div class="errors1">
+                            {{ form.username.errors }}
+                            {{ form.password2.errors }}
+                            {{ form.password1.errors }}
+                            {{ form.first_name.errors }}
+                            {{ form.last_name.errors }}
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <form action="{% url 'users:registration' %}" method="POST">
+                        {% csrf_token %}
+                        {{ form.username }}
+                        {{ form.email }}
+                        {{ form.first_name }}
+                        {{ form.last_name }}
+                        {{ form.password1 }}
+                        {{ form.password2 }}
 
-
-
-
-		<!-- /BREADCRUMB -->
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<div class="billing-details1">
-							<p>Регистрация</p>
-                            {% if form.errors %}
-                            <div id="errors">
-                                <div class="errors1">
-                                    {{ form.username.errors }}
-                                    {{ form.password2.errors }}
-                                    {{ form.password1.errors }}
-                                    {{ form.first_name.errors }}
-                                    {{ form.last_name.errors }}
-                                    {{ form.email.errors }}
-                                </div>
-                            </div>
-                            {% endif %}
-							<form action="{% url 'users:registration' %}" method="POST">
-                                {% csrf_token %}
-                                {{ form.username }}
-                                {{ form.email }}
-                                {{ form.first_name }}
-                                {{ form.last_name }}
-                                {{ form.password1 }}
-                                {{ form.password2 }}
-
-								<button class="primary-btn cta-btn">Зарегестрироваться</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-
-		<!-- SECTION -->
-		<div class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /SECTION -->
+                        <button class="primary-btn cta-btn">Зарегестрироваться</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /SECTION -->
 {% endblock %}

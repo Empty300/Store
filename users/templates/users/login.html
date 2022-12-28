@@ -1,69 +1,48 @@
 {% extends 'products/base.html' %}
 {% load static %}
 {%  block content %}
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="billing-details1">
+                    <p>Вход в личный кабинет</p>
+                    {% if messages or form.non_field_errors %}
+                    <div id="errors">
+                        <div class="errors1">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {{ message }}
+                            {% endfor %}
+                             {% endif %}
+                            {{ form.non_field_errors }}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <form action="{% url 'users:login' %}" method="POST">
+                        {% csrf_token %}
+                        {{ form.username }}
+                        {{ form.password }}
+                        <button class="primary-btn cta-btn">Войти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+        <!-- /container -->
 
-
-  		<!-- BREADCRUMB -->
-		<div id="breadcrumb" class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<h3 class="breadcrumb-header">Regular Page</h3>
-						<ul class="breadcrumb-tree">
-							<li><a href="#">Home</a></li>
-							<li class="active">Blank</li>
-						</ul>
-					</div>
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /BREADCRUMB -->
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<div class="billing-details1">
-							<p>Вход в личный кабинет</p>
-                            {% if messages or form.non_field_errors %}
-                            <div id="errors">
-                                <div class="errors1">
-                                    {% if messages %}
-                                        {% for message in messages %}
-                                            {{ message }}
-                                    {% endfor %}
-                                     {% endif %}
-                                    {{ form.non_field_errors }}
-                                </div>
-                            </div>
-                            {% endif %}
-							<form action="{% url 'users:login' %}" method="POST">
-                                {% csrf_token %}
-                                {{ form.username }}
-                                {{ form.password }}
-								<button class="primary-btn cta-btn">Войти</button>
-							</form>
-						</div>
-					</div>
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-
-		<!-- SECTION -->
-		<div class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /SECTION -->
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /SECTION -->
 {% endblock %}

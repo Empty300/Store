@@ -9,12 +9,14 @@ from django.urls import reverse_lazy, reverse
 
 
 class UserLoginView(LoginView):
+    model = User
     form_class = UserLoginForm
     template_name = 'users/login.html'
     title = 'Store - Авторизация'
 
 
 class UserRegistrationView(CreateView):
+    model = User
     form_class = RegisterForm
     template_name = 'users/registration.html'
     success_url = reverse_lazy('users:login')

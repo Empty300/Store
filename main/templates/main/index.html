@@ -83,11 +83,11 @@
 									<div class="products-slick slick-initialized slick-slider" data-nav="#slick-nav-1">
                                         <div class="product slick-slide slick-active" style="width: 345px;" tabindex="0" data-slick-index="1" aria-hidden="false">
                                             <div class="product-img">
-                                                <img src={{ product.image }} alt="">
+                                                <img src={{ product.image1 }} alt="">
                                             </div>
                                             <div class="product-body">
                                                 <p class="product-category">{{ product.category }}</p>
-                                                <h3 class="product-name"><a href="#" tabindex="0">{{ product.name }}</a></h3>
+                                                <h3 class="product-name"><a href="{% url 'products:product' product.slug %}" tabindex="0">{{ product.name }}</a></h3>
                                                 <h4 class="product-price">{{product.price}}
                                                 <div class="product-rating">
                                                     <i class="fa fa-star"></i>
