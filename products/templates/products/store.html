@@ -10,24 +10,35 @@
             <!-- ASIDE -->
             <div id="aside" class="col-md-3">
                 <!-- aside Widget -->
-            <form action="{% url 'products:filter' %}" method="get" >
+            <form action="{% url 'products:index' %}" method="get" >
                 <div class="aside">
-                    <h3 class="aside-title">Категории</h3>
-                    <div class="checkbox-filter">
-                        {% for category in categories %}
-                            <div class="input-checkbox">
-                                <input id="{{ category.id }}" type="checkbox" name="Category" value="{{ category.id }}">
-                                <label for={{ category.id }}>
-                                    <span></span>
-                                    {{ category.name }}
-                                    <small>{{ category.items_count }}</small>
-                                </label>
-                            </div>
-                        {% endfor %}
+                    {% if categories.count > 5 %}
+                        <input type="checkbox" class="read-more-checker" id="read-more-checker" />
+                        <div class="limited">
+                    {% endif %}
+                        <h3 class="aside-title">Категории</h3>
+                        <div class="checkbox-filter">
+                            {% for category in categories %}
+                                <div class="input-checkbox">
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/cookiesjs/1.4.2/cookies.min.js"></script>
+                                    <input id="{{ category.id }}"  type="checkbox" name="Category" value="{{ category.id }}"  onclick="this.form.submit()" >
+                                    <label for={{ category.id }}>
+                                        <span></span>
+                                        {{ category.name }}
+                                        <small>{{ category.items_count }}</small>
+                                    </label>
 
-                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                    {% if categories.count > 5 %}
+                        </div>
+                        <label for="read-more-checker" class="read-more-button"></label>
+                    {% endif %}
                 </div>
-                <button type="submit">Найти</button>
+
 
                 <!-- /aside Widget -->
 
@@ -53,21 +64,31 @@
 
                 <!-- aside Widget -->
                 <div class="aside">
-                    <h3 class="aside-title">Brand</h3>
-                    <div class="checkbox-filter">
-                        {% for brand in brands %}
-                            <div class="input-checkbox">
-                                <input id="{{ brand.brand }}" type="checkbox" name="Brand" value="{{ brand.brand }}">
-                                    <label for={{ brand.brand }}>
-                                        <span></span>
-                                        {{ brand.brand }}
-                                    <small></small>
-                                </label>
-                            </div>
-                        {% endfor %}
-                    </form>
+                    {% if brands.count > 5 %}
+                        <input type="checkbox" class="read-more-checker" id="read-more-checker1" />
+                        <div class="limited">
+                    {% endif %}
+                        <h3 class="aside-title">Brand</h3>
+                        <div class="checkbox-filter">
+                            {% for brand in brands %}
+                                <div class="input-checkbox">
+                                    <input id="{{ brand.brand }}" type="checkbox" name="Brand" value="{{ brand.brand }}" onclick="this.form.submit()">
+                                        <label for={{ brand.brand }}>
+                                            <span></span>
+                                            {{ brand.brand }}
+                                        <small>{{ brand.items_count }}</small>
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% if brands.count > 5 %}
+                        </div><label for="read-more-checker1" class="read-more-button"></label>
+                    {% endif %}
                     </div>
-                </div>
+                        </form>
+
+
+
                 <!-- /aside Widget -->
 
 
@@ -105,6 +126,7 @@
 
                 <!-- store products -->
                 <div class="row">
+                {% if object_list %}
                     {% for product in object_list %}
                         <div class="col-md-4 col-xs-6">
                             <div class="product">
@@ -118,32 +140,28 @@
                                 </div>
                                 <div class="product-body">
                                     <p class="product-category">{{ product.category }}</p>
-                                    <h3 class="product-name"><a href="{% url 'products:product' product.slug %}">{{ product.name }}</a></h3>
+                                <div class="items-text1">
+                                    <h3 class="product-name"><a href="{% url 'products:product' product.slug %}">
+                                        {{ product.name }}</a></h3>
+                                </div>
                                     {% if product.price_now %}
                                     <h3 class="product-price">{{ product.price_now }}₽<del class="product-old-price">
-                                        {{product.price_old}}₽</del>
+                                        {{product.price_old}}₽</del></h3>
                                     {% else %}
-                                        <h3 class="product-price">{{ product.price_old }}₽
+                                        <h3 class="product-price">{{ product.price_old }}₽</h3>
                                     {% endif %}
-                                    <div class="product-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="product-btns">
-                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                    </div>
                                 </div>
                                 <div class="add-to-cart">
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    <button class="add-to-cart-btn" onclick="location.href=
+                                            '{% url 'products:basket_add' product.id %}'">
+                                        <i class="fa fa-shopping-cart"></i>Добавить</button>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
+                {% else %}
+                <h3 class="product-name">Такого товара нет</h3>
+                {% endif %}
                 </div>
 
                 <!-- /store products -->
@@ -167,6 +185,5 @@
     </div>
     <!-- /container -->
 </div>
-<!-- /SECTION -->
 {% endblock %}
 

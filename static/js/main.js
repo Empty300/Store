@@ -7,6 +7,10 @@
 		$('#responsive-nav').toggleClass('active');
 	})
 
+	$('form').submit(function (e) {
+    	return false;
+	});
+
 	// Fix cart dropdown from closing
 	$('.cart-dropdown').on('click', function (e) {
 		e.stopPropagation();
@@ -164,5 +168,12 @@
 			handle ? priceInputMax.value = value : priceInputMin.value = value
 		});
 	}
+
+
+
+
+
+
+
 
 })(jQuery);

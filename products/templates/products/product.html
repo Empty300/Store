@@ -70,9 +70,6 @@
                         {% else %}
                             <p>Описание отсутствует</p>
                         {% endif %}
-
-
-
 							<div class="add-to-cart">
                                 {% if product.colors %}
                                     <div class="qty-label">
@@ -93,15 +90,15 @@
 										<span class="qty-down">-</span>
 									</div>
 								</div>
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+								<button class="add-to-cart-btn" onclick="location.href=
+                                            '{% url 'products:basket_add' product.id %}'">
+                                        <i class="fa fa-shopping-cart"></i>Добавить</button>
 							</div>
 
 							<ul class="product-links">
 								<li>Категория:</li>
 								<li><a href="#">{{ product.category }}</a></li>
 							</ul>
-
-
 
 						</div>
 					</div>
