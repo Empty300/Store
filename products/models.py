@@ -88,8 +88,15 @@ class Product(models.Model):
         blank=True,
         null=True,
     )
-
-
+    def sum(self):
+        all_stars=list()
+        all_reviews = Reviews.objects.all().filter(product=self.id)
+        if all_reviews:
+            for star in all_reviews:
+                all_stars.append(star.stars)
+            return sum(all_stars)/len(all_reviews)
+        else:
+            return 'Оценок недостаточно'
 
 
     def __str__(self):
@@ -103,12 +110,15 @@ class BasketQuerySet(models.QuerySet):
     def total_quantity(self):
         return sum(basket.quantity for basket in self)
 
+
 class Basket(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(default=0)
     created_timestamp = models.DateTimeField(auto_now_add=True)
     objects = BasketQuerySet.as_manager()
+    color = models.CharField(max_length=100, blank=True)
+
 
     def __str__(self):
         return f'Продукт: {self.user.username} | Категория: {self.product.name}'
@@ -118,3 +128,16 @@ class Basket(models.Model):
             return self.product.price_now * self.quantity
         else:
             return self.product.price_old * self.quantity
+
+
+class Reviews(models.Model):
+    review = models.CharField(
+        verbose_name='Отзыв',
+        max_length=1000,
+    )
+    stars = models.PositiveSmallIntegerField(verbose_name='Оценка')
+    created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    product = models.ForeignKey(to=Product, on_delete=models.CASCADE, verbose_name='Продукт')
+
+

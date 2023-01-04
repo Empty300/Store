@@ -12,8 +12,10 @@
             {% for basket in baskets %}
                 <div class="order-col">
                     <div><div class="product-widget"><a class="delete" href="{% url 'products:basket_remove' basket.id %}">
-                        <i class="fa fa-close"></i></a></div> 111{{ basket.product.name }} x {{ basket.quantity }}</div>
+                        <i class="fa fa-close"></i></a></div> ---<a href="{% url 'products:product' basket.product.slug %}">
+                        {{ basket.product.name }} x {{ basket.quantity }} {{ basket.color }}</a></div>
                     <div>{{ basket.sum }} руб.</div>
+
                 </div>
             {% endfor %}
         </div>
@@ -26,13 +28,7 @@
             <div><strong class="order-total">{{ baskets.total_sum }} руб.</strong></div>
         </div>
     </div>
-    <div class="input-checkbox">
-        <input type="checkbox" id="terms">
-        <label for="terms">
-            <span></span>
-            I've read and accept the <a href="#">terms & conditions</a>
-        </label>
-    </div>
+    <a href="{% url 'products:basket_remove_all' %}" >Очитстить корзину</a>
     <a href="#" class="primary-btn order-submit">Заказать</a>
 </div>
 {% else %}

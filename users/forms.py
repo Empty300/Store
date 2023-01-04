@@ -3,9 +3,7 @@ from datetime import timedelta
 from django.utils.timezone import now
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from users.models import User
-from  django import forms
-
-
+from django import forms
 
 
 class UserLoginForm(AuthenticationForm):

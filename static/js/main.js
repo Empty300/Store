@@ -132,15 +132,19 @@
 	var priceInputMax = document.getElementById('price-max'),
 			priceInputMin = document.getElementById('price-min');
 
+
 	priceInputMax.addEventListener('change', function(){
 		updatePriceSlider($(this).parent() , this.value)
+
 	});
 
 	priceInputMin.addEventListener('change', function(){
 		updatePriceSlider($(this).parent() , this.value)
+
 	});
 
 	function updatePriceSlider(elem , value) {
+
 		if ( elem.hasClass('price-min') ) {
 			console.log('min')
 			priceSlider.noUiSlider.set([value, null]);
@@ -151,23 +155,27 @@
 	}
 
 	// Price Slider
-	var priceSlider = document.getElementById('price-slider');
+	var priceSlider = document.getElementById('price-slider')
+	var minn = priceSlider.getAttribute("min")
+	var maxx = priceSlider.getAttribute("max")
 	if (priceSlider) {
 		noUiSlider.create(priceSlider, {
-			start: [1, 999],
+			start: [Number(minn), Number(maxx)],
 			connect: true,
 			step: 1,
 			range: {
-				'min': 1,
-				'max': 999
+				'min': Number(minn),
+				'max': Number(maxx)
 			}
 		});
-
 		priceSlider.noUiSlider.on('update', function( values, handle ) {
 			var value = values[handle];
 			handle ? priceInputMax.value = value : priceInputMin.value = value
+
 		});
 	}
+
+
 
 
 

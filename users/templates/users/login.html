@@ -24,7 +24,7 @@
                         {% csrf_token %}
                         {{ form.username }}
                         {{ form.password }}
-                        <button class="primary-btn cta-btn">Войти</button>
+                        <button onclick="this.form.submit()" class="primary-btn cta-btn">Войти</button>
                     </form>
                 </div>
             </div>

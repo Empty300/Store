@@ -123,8 +123,19 @@ ul, ol {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
-}
 
+}
+.input1 {
+  height: 40px;
+  padding: 0px 15px;
+  border: 1px solid #E4E7ED;
+  background-color: #FFF;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 90px;
+  border-radius: 40px 0px 0px 40px;
+}
 textarea.input {
   padding: 15px;
   min-height: 90px;
@@ -474,10 +485,12 @@ textarea.input {
 
 .header-search {
   padding: 15px 0px;
+  border-radius: 40px 0px 0px 40px;
 }
 
 .header-search form {
   position: relative;
+  border-radius: 40px 0px 0px 40px;
 }
 
 .header-search form .input-select {
@@ -489,7 +502,10 @@ textarea.input {
   width: calc(100% - 260px);
   margin-right: -4px;
 }
-
+.header-search form .input1 {
+  width: calc(100% - 260px);
+  margin-right: -4px;
+}
 .header-search form .search-btn {
   height: 40px;
   width: 100px;
@@ -1112,7 +1128,14 @@ textarea.input {
   padding-left: 75px;
   min-height: 60px;
 }
-
+.product-widget .product-body1 {
+  font-size: 5px;
+  min-height: 60px;
+}
+.product-widget .product-body1 .product-name {
+  text-transform: uppercase;
+  font-size: 5px;
+}
 .product-widget .product-body .product-category {
   text-transform: uppercase;
   font-size: 10px;
@@ -1681,7 +1704,7 @@ textarea.input {
 /*-- Rating --*/
 
 .rating-avg {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: 15px;
 }
