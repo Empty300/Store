@@ -101,7 +101,8 @@
 
                             <ul class="product-links">
                                 <li>Категория:</li>
-                                <li><a href="#">{{ product.category }}</a></li>
+                                <li><a href="{% url 'products:index' %}?Category={{ product.category.id }}">{{ product.category }}</a></li>
+
                             </ul>
                         </form>
                     </div>
@@ -164,6 +165,10 @@
                                                 <div class="review-body">
                                                     <p>{{ review.review }}</p>
                                                 </div>
+                                                {% if review.user == user %}
+                                                    <a href="{% url 'products:review_del'  review.id  %}">
+                                                    Удалить отзыв</a>
+                                                {% endif %}
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -188,6 +193,7 @@
                                             <strong>войти</strong></a>
                                         {% endif %}
                                     </form>
+
                                 </div>
                             </div>
                             <!-- /Review Form -->

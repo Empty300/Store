@@ -54,11 +54,20 @@ Table OF Contents
 /*----------------------------*\
 	Typography
 \*----------------------------*/
+html {
+  height: 100%;
+}
 
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   color: #333;
+  position: relative;
+  min-height: 100%;
+
+
+  /* задаём высоту строк */
+  grid-template-rows: auto 1fr auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -477,8 +486,19 @@ textarea.input {
 
 .header-logo .logo img {
   display: block;
+  max-width: 55%;
+  max-height: 55%;
 }
 
+.list-group-item1 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+}
+.list-group-item1 .fa {
+  margin-left:20px;
+
+}
 /*----------------------------*\
 	Search
 \*----------------------------*/
@@ -1134,7 +1154,7 @@ textarea.input {
 }
 .product-widget .product-body1 .product-name {
   text-transform: uppercase;
-  font-size: 5px;
+  font-size: 12px;
 }
 .product-widget .product-body .product-category {
   text-transform: uppercase;
@@ -1830,9 +1850,11 @@ textarea.input {
 }
 
 /*-- Review Form --*/
-
+.review-form{
+  margin-bottom: 20px;
+}
 .review-form .input {
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .review-form .input-rating {
@@ -2062,7 +2084,10 @@ textarea.input {
   background-color: #E4E7ED;
   color: #D10024;
 }
-
+#main {
+  padding-bottom: 30px;
+  /*Высота футера*/
+}
 /*=========================================================
 	11 -> FOOTER
 ===========================================================*/
@@ -2070,6 +2095,11 @@ textarea.input {
 #footer {
   background: #15161D;
   color: #B9BABC;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+
 }
 
 #bottom-footer {

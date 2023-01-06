@@ -1,7 +1,8 @@
 from django.urls import path
 
 from products import views
-from products.views import ProductsListView, ProductDetailView, basket_add, basket_remove, review_add, basket_remove_all
+from products.views import ProductsListView, ProductDetailView, basket_add, basket_remove, review_add, \
+    basket_remove_all, review_del
 
 app_name = 'products'
 
@@ -14,5 +15,6 @@ urlpatterns = [
     path('baskets/remove/<int:basket_id>/', basket_remove, name='basket_remove'),
     path('baskets/remove_all/', basket_remove_all, name='basket_remove_all'),
     path('review/add/<int:product_id>/', review_add, name='review_add'),
+    path('review/del/<int:review_id>/', review_del, name='review_del'),
 
 ]

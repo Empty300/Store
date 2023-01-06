@@ -61,7 +61,7 @@ class Product(models.Model):
     )
     short_description = models.CharField(
         verbose_name='Краткое описание',
-        max_length=1000,
+        max_length=10000,
         blank=True,
         null = True,
     )

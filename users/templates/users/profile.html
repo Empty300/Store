@@ -23,24 +23,22 @@
                                     {{ form.last_name }}
                                     </div>
                                     <button class="primary-btn cta-btn">Сохранить</button>
-                                </form></div></div>
-                            {% include 'products/basket.html' %}
-                        <form action="{% url 'users:profile' user.id %}" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="col-md-5 order-details1">
-                                <div class="billing-details">
+                                </form>
+
                                     <div class="section-title">
                                         <h3 class="title">Адресс доставки</h3>
                                     </div>
-                                    {{ form.country }}
-                                    {{ form.city }}
-                                    {{ form.address }}
-                                    {{ form.zipcode }}
-                                    {{ form.telephone }}
-                                <button class="primary-btn cta-btn">Сохранить</button>
-                                </div>
-                            </div>
-                        </form>
+                                    <form action="{% url 'users:profile' user.id %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{ form.country }}
+                                        {{ form.city }}
+                                        {{ form.address }}
+                                        {{ form.zipcode }}
+                                        {{ form.telephone }}
+                                        <button class="primary-btn cta-btn">Сохранить</button>
+                                </form>
+                            </div></div>
+                        {% include 'products/basket.html' %}
 
 
 					<!-- Order Details -->

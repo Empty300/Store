@@ -111,6 +111,9 @@ def basket_add(request, product_id):
         else:
             Basket.objects.create(user=request.user, product=product,
                                   quantity=request.GET['Quantity'])
+    else:
+        Basket.objects.create(user=request.user, product=product,
+                              quantity=1)
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
@@ -134,5 +137,15 @@ def review_add(request, product_id):
     Reviews.objects.create(user=request.user, product=product,
                            review=request.POST['review'], stars=request.POST['stars'])
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+@login_required
+def review_del(request, review_id):
+    review = Reviews.objects.get(id=review_id)
+    if request.user == review.user:
+        review.delete()
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    else:
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 

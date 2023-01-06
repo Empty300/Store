@@ -1,0 +1,27 @@
+{% extends 'products/base.html' %}
+{% load static %}
+{%  block content %}
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="billing-details1">
+
+                    <p>Введите email</p>
+                {% if  msg  %}
+                        <div id="errors">
+                            <div class="errors1">
+                                {{ msg }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <form action="{% url 'users:password_reset' %}" method="POST">
+                        {% csrf_token %}
+                        {{ form.email }}
+                        <button onclick="this.form.submit()" class="primary-btn cta-btn">Сбросить пароль</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
