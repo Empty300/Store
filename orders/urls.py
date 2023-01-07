@@ -3,14 +3,16 @@ from django.urls import path
 
 from django.contrib.auth.decorators import login_required
 
-from orders.views import OrderCreateView, SuccessTemplateView, CanceledTemplateView
+from orders.views import OrderCreateView, SuccessTemplateView, CanceledTemplateView, stripe_webhook_view, OrderListView, \
+    OrderDetailView
 
 app_name = 'orders'
 
 urlpatterns = [
-    # path('order-create/', OrderCreateView.as_view(), name='order_create'),
     path('', OrderCreateView.as_view(), name='order_create'),
-    # # path('orders/', OrdersView.as_view(), name='orders'),
+    path('orders/', OrderListView.as_view(), name='orders_list'),
     path('success/', SuccessTemplateView.as_view(), name='order_success'),
     path('canceled/', CanceledTemplateView.as_view(), name='order_canceled'),
-    ]
+    path('order/<int:pk>', OrderDetailView.as_view(), name='order'),
+
+]

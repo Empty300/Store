@@ -56,7 +56,7 @@
                                 <div class="dropdown-content">
                                     <div class="cart-list">
                                         <a href="{% url 'users:profile' user.id %}">Мой профиль</a>
-                                        <a href="#">Мои заказы</a>
+                                        <a href="{% url 'orders:orders_list' %}">Мои заказы</a>
                                         <a href="{% url 'users:logout' %}">Выйти</a>
                                     </div>
                                 </div>
