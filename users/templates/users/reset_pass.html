@@ -18,7 +18,7 @@
                     <form action="{% url 'users:password_reset' %}" method="POST">
                         {% csrf_token %}
                         {{ form.email }}
-                        <button onclick="this.form.submit()" class="primary-btn cta-btn">Сбросить пароль</button>
+                        <button class="primary-btn cta-btn">Сбросить пароль</button>
                     </form>
                 </div>
             </div>

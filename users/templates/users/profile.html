@@ -21,21 +21,8 @@
                                     {{ form.email }}
                                     {{ form.first_name }}
                                     {{ form.last_name }}
-                                    </div>
-                                    <button class="primary-btn cta-btn">Сохранить</button>
-                                </form>
-
-                                    <div class="section-title">
-                                        <h3 class="title">Адресс доставки</h3>
-                                    </div>
-                                    <form action="{% url 'users:profile' user.id %}" method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        {{ form.country }}
-                                        {{ form.city }}
-                                        {{ form.address }}
-                                        {{ form.zipcode }}
-                                        {{ form.telephone }}
-                                        <button class="primary-btn cta-btn">Сохранить</button>
+                                </div>
+                                    <button class="primary-btn cta-btn" >Сохранить</button>
                                 </form>
                             </div></div>
                         {% include 'products/basket.html' %}

@@ -94,7 +94,7 @@
                                         <span class="qty-down">-</span>
                                     </div>
                                 </div>
-                                <button class="add-to-cart-btn" onclick="this.form.submit()">
+                                <button class="add-to-cart-btn" >
                                     <i class="fa fa-shopping-cart"></i>Добавить
                                 </button>
                             </div>
@@ -185,7 +185,7 @@
                                         {{ form.review }}
                                         <span>Ваша оценка: </span>
                                         {{ form.stars }}
-                                        <button class="primary-btn" onclick="this.form.submit()">Оставить отзыв</button>
+                                        <button class="primary-btn" >Оставить отзыв</button>
                                         {% else %}
                                         <p> </p>
                                         Для добавления нового отзыва вам необходимо <a href="{%  url 'users:registration' %}">

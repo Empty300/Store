@@ -39,6 +39,12 @@ class UserProfileView(UpdateView):
     template_name = 'users/profile.html'
     title = 'Store - Профиль'
 
+    def get(self, request, *args, **kwargs):
+        if self.request.user.pk != self.kwargs['pk']:
+            return HttpResponseRedirect(reverse('index'))
+        else:
+            return super().get(request, *args, **kwargs)
+
     def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.object.id,))
 

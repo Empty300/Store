@@ -20,16 +20,12 @@
             {% endfor %}
         </div>
         <div class="order-col">
-            <div>Доставка</div>
-            <div><strong>Бесплатно</strong></div>
-        </div>
-        <div class="order-col">
             <div><strong>Цена за всё:</strong></div>
             <div><strong class="order-total">{{ baskets.total_sum }} руб.</strong></div>
         </div>
     </div>
     <a href="{% url 'products:basket_remove_all' %}" >Очитстить корзину</a>
-    <a href="#" class="primary-btn order-submit">Заказать</a>
+    <a href="{% url 'orders:order_create' %}" class="primary-btn order-submit">Заказать</a>
 </div>
 {% else %}
     <div class="col-md-5 order-details">

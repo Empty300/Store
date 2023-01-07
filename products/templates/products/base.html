@@ -97,7 +97,7 @@
 							<div class="header-search">
 								<form action="{% url 'products:index' %}" method="get" id="form1" name="theForm">
 									<input class="input1" placeholder="Введите запрос" name="Search">
-                                    <button class="search-btn" onclick="this.form.submit()">Искать</button>
+                                    <button class="search-btn">Искать</button>
 								</form>
 							</div>
 						</div>
@@ -137,7 +137,7 @@
                                                 </div>
                                                 <div class="cart-btns">
                                                     <a href="{% url 'users:profile' user.id %}">Подробнее</a>
-                                                    <a href="#">Заказать<i class="fa fa-arrow-circle-right"></i></a>
+                                                    <a href="{% url 'orders:order_create' %}">Заказать<i class="fa fa-arrow-circle-right"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -240,8 +240,7 @@
 		<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
 		<script src="{% static 'js/main.js' %}"></script>
         <script src="{% static 'js/checkbox.js' %}"></script>
-        <script src="{% static 'js/updateURL.js' %}"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'js/infinite.min.js' %}"></script>
