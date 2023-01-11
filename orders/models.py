@@ -16,7 +16,6 @@ class Order(models.Model):
         (DELIVERED, 'Доставлен'),
     )
 
-
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     email = models.EmailField(max_length=64)

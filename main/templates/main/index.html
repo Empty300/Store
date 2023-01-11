@@ -15,7 +15,8 @@
                         </div>
                         <div class="shop-body">
                             <h3>Ноутбуки<br></h3>
-                            <a href="{% url 'products:index' %}?Category=11" class="cta-btn">Купить<i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{% url 'products:index' 11 %}" class="cta-btn">Купить<i
+                                    class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -29,7 +30,8 @@
                         </div>
                         <div class="shop-body">
                             <h3>Наушники<br></h3>
-                            <a href="{% url 'products:index' %}?Category=6" class="cta-btn">Купить<i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{% url 'products:index' 6 %}" class="cta-btn">Купить<i
+                                    class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -43,7 +45,8 @@
                         </div>
                         <div class="shop-body">
                             <h3>Планшеты<br></h3>
-                            <a href="{% url 'products:index' %}?Category=5" class="cta-btn">купить<i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{% url 'products:index' 5 %}" class="cta-btn">купить<i
+                                    class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -83,15 +86,19 @@
                                         <div class="product-body">
                                             <p class="product-category">{{ product.category }}</p>
                                             <div class="items-text1">
-                                                <h3 class="product-name"><a href="{% url 'products:product' product.slug %}"
+                                                <h3 class="product-name"><a
+                                                        href="{% url 'products:product' product.slug %}"
                                                 >{{ product.name }}</a></h3>
                                             </div>
-                                            <h4 class="product-price">{{ product.price_now }}₽ <del class="product-old-price">{{ product.price_old }}₽</del></h4>
+                                            <h4 class="product-price">{{ product.price_now }}₽
+                                                <del class="product-old-price">{{ product.price_old }}₽</del>
+                                            </h4>
                                         </div>
                                         <div class="add-to-cart">
                                             <form action="{% url 'products:basket_add' product.id %}" method="get">
-                                            <button class="add-to-cart-btn">
-                                            <i class="fa fa-shopping-cart"></i>Добавить</button>
+                                                <button class="add-to-cart-btn">
+                                                    <i class="fa fa-shopping-cart"></i>Добавить
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -105,8 +112,8 @@
                 </div>
             </div>
 
-    </div>
-    <!-- /row -->
+        </div>
+        <!-- /row -->
     </div>
     <!-- /container -->
 
@@ -136,35 +143,39 @@
                             <div id="tab2" class="tab-pane fade in active">
                                 <div class="products-slick" data-nav="#slick-nav-2">
                                     {% for product in random %}
-                                    <div class="product">
-                                        <div class="product-img">
-                                            <img src={{ product.image1 }} alt="">
-                                            {% if product.discount %}
-                                                <div class="product-label">
-                                                    <span class="new">-{{ product.discount }}%</span>
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                        <div class="product-body">
-                                            <p class="product-category">{{ product.category }}</p>
-                                            <div class="items-text1">
-                                                <h3 class="product-name"><a href="{% url 'products:product' product.slug %}"
-                                                >{{ product.name }}</a></h3>
+                                        <div class="product">
+                                            <div class="product-img">
+                                                <img src={{ product.image1 }}>
+                                                {% if product.discount %}
+                                                    <div class="product-label">
+                                                        <span class="new">-{{ product.discount }}%</span>
+                                                    </div>
+                                                {% endif %}
                                             </div>
-                                            {% if product.price_now %}
-                                                <h4 class="product-price">{{ product.price_now }}₽ <del class="product-old-price">{{ product.price_old }}₽</del></h4>
-                                            {% else %}
-                                                <h4 class="product-price">{{ product.price_old }}₽</h4>
-                                            {% endif %}
+                                            <div class="product-body">
+                                                <p class="product-category">{{ product.category }}</p>
+                                                <div class="items-text1">
+                                                    <h3 class="product-name"><a
+                                                            href="{% url 'products:product' product.slug %}"
+                                                    >{{ product.name }}</a></h3>
+                                                </div>
+                                                {% if product.price_now %}
+                                                    <h4 class="product-price">{{ product.price_now }}₽
+                                                        <del class="product-old-price">{{ product.price_old }}₽</del>
+                                                    </h4>
+                                                {% else %}
+                                                    <h4 class="product-price">{{ product.price_old }}₽</h4>
+                                                {% endif %}
+                                            </div>
+                                            <div class="add-to-cart">
+                                                <form action="{% url 'products:basket_add' product.id %}" method="get">
+                                                    <button class="add-to-cart-btn">
+                                                        <i class="fa fa-shopping-cart"></i>Добавить
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
-                                        <div class="add-to-cart">
-                                            <form action="{% url 'products:basket_add' product.id %}" method="get">
-                                            <button class="add-to-cart-btn">
-                                            <i class="fa fa-shopping-cart"></i>Добавить</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
 
                                 </div>
                                 <div id="slick-nav-2" class="products-slick-nav"></div>
@@ -181,7 +192,7 @@
     </div>
     <!-- /SECTION -->
     <div>
-    1
+        1
 
     </div>
 

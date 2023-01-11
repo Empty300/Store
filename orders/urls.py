@@ -1,10 +1,7 @@
-from django.contrib.auth.views import LogoutView
 from django.urls import path
 
-from django.contrib.auth.decorators import login_required
-
-from orders.views import OrderCreateView, SuccessTemplateView, CanceledTemplateView, stripe_webhook_view, OrderListView, \
-    OrderDetailView
+from orders.views import (CanceledTemplateView, OrderCreateView,
+                          OrderDetailView, OrderListView, SuccessTemplateView)
 
 app_name = 'orders'
 

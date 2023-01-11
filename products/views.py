@@ -1,15 +1,27 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Q, Max
-from django.http import HttpResponseRedirect
+from django.db.models import Count, Q
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView
+from django.template.loader import render_to_string
+from django.views.generic import DetailView, ListView
 
+from common.views import CommonMixin
 from products.forms import ReviewsForm
-from products.models import Product, ProductCategory, Basket, User, Reviews
+from products.models import Basket, Product, ProductCategory, Reviews, User
 from products.scraping import scraping
 
 
-class ProductsListView(ListView):
+class CategoriesListView(CommonMixin, ListView):
+    model = ProductCategory
+    template_name = 'products/categories.html'
+    title = 'Store - Категории'
+
+    def get_queryset(self):
+        queryset = ProductCategory.objects.all().order_by('id')
+        return queryset
+
+
+class ProductsListView(CommonMixin, ListView):
     model = Product, User
     template_name = 'products/store.html'
     title = 'Store - Каталог'
@@ -17,49 +29,45 @@ class ProductsListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsListView, self).get_context_data()
-        try:
-            context['baskets'] = Basket.objects.filter(user=self.request.user)
-        except:
-            context['baskets'] = None
-        context['categories'] = ProductCategory.objects.annotate(items_count=Count('product'))
-        context['brands'] = Product.objects.values('brand').distinct().order_by('brand').annotate(
+        context['category'] = ProductCategory.objects.get(id=self.kwargs['category_id'])
+        if 'Brand' not in self.request.GET:
+            context['max_price'] = int(Product.objects.filter(category_id=self.kwargs['category_id'])
+                                       .order_by('price_now').last().price_now)
+            context['min_price'] = int(Product.objects.filter(category_id=self.kwargs['category_id'])
+                                       .order_by('-price_now').last().price_now)
+        else:
+            context['max_price'] = int(Product.objects.filter(category_id=self.kwargs['category_id'],
+                                                              brand=self.request.GET.get('Brand'))
+                                       .order_by('price_now').last().price_now)
+            context['min_price'] = int(Product.objects.filter(category_id=self.kwargs['category_id'],
+                                                              brand=self.request.GET.get('Brand'))
+                                       .order_by('-price_now').last().price_now)
+        brand_filtr = Product.objects.filter(category_id=self.kwargs['category_id']).values('brand').distinct().annotate(
             items_count=Count('brand'))
-        context['random'] = Product.objects.order_by("?")
-        context['max_price'] = int(Product.objects.all().order_by('price_old').last().price_old)
-        context['min_price'] = int(Product.objects.all().order_by('-price_old').last().price_old)
-        if 'Category' in self.request.GET and 'Brand' in self.request.GET:
-            brand_filtr = Product.objects.filter(category_id__in=self.request.GET.getlist("Category"))
-            context['brands'] = brand_filtr.values('brand').distinct().order_by('brand').annotate(
-                items_count=Count('brand'))
-            category_filtr = ProductCategory.objects.filter(product__brand__in=self.request.GET.getlist("Brand"))
-            context['categories'] = category_filtr.annotate(items_count=Count('product'))
-        elif 'Category' in self.request.GET:
-            brand_filtr = Product.objects.filter(category_id__in=self.request.GET.getlist("Category"))
-            context['brands'] = brand_filtr.values('brand').distinct().order_by('brand').annotate(
-                items_count=Count('brand'))
-        elif 'Brand' in self.request.GET:
-            category_filtr = ProductCategory.objects.filter(product__brand__in=self.request.GET.getlist("Brand"))
-            context['categories'] = category_filtr.annotate(items_count=Count('product'))
-        query = f"{'&Search='+self.request.GET.get('Search') if self.request.GET.get('Search') else ''}" \
-                f"{'&Category='+self.request.GET.get('Category') if self.request.GET.get('Category') else ''}" \
-                f"{'&Brand='+self.request.GET.get('Brand') if self.request.GET.get('Brand') else ''}"
+        context['brands'] = brand_filtr.order_by('-items_count')
+        query = f"{'&Search=' + self.request.GET.get('Search') if self.request.GET.get('Search') else ''}" \
+                f"{'&Brand=' + self.request.GET.get('Brand') if self.request.GET.get('Brand') else ''}"\
+                f"{'&min_price=' + self.request.GET.get('min_price') if self.request.GET.get('min_price') else ''}"\
+                f"{'&max_price=' + self.request.GET.get('max_price') if self.request.GET.get('max_price') else ''}"
         context['query'] = query
-
-
 
         return context
 
     def get_queryset(self):
-        queryset = Product.objects.order_by("?")
-        if 'Search' in self.request.GET:
-            queryset = Product.objects.filter(name__iregex=self.request.GET.get("Search"))
-        elif 'Category' in self.request.GET and 'Brand' in self.request.GET:
-            queryset = Product.objects.filter(
-                Q(category_id__in=self.request.GET.getlist("Category")), Q(brand__in=self.request.GET.getlist("Brand")))
-        elif 'Category' in self.request.GET or 'Brand' in self.request.GET:
-            queryset = Product.objects.filter(
-                Q(category_id__in=self.request.GET.getlist("Category")) | Q(brand__in=self.request.GET.getlist("Brand")))
-
+        if 'Brand' in self.request.GET and 'max_price' in self.request.GET:
+            queryset = Product.objects.filter(category_id=self.kwargs['category_id'],
+                                              brand__in=self.request.GET.getlist("Brand"),
+                                              price_now__gte=self.request.GET.get("min_price")[:-1],
+                                              price_now__lte=self.request.GET.get("max_price")[:-1]
+                                              )
+        elif 'Brand' in self.request.GET:
+            queryset = Product.objects.filter(category_id=self.kwargs['category_id'],
+                                              brand__in=self.request.GET.getlist("Brand"),
+                                              )
+        # elif 'Search' in self.request.GET:
+        #     queryset = Product.objects.filter(name__iregex=self.request.GET.get("Search"))
+        else:
+            queryset = Product.objects.all().filter(category_id=self.kwargs['category_id'])
 
         return queryset
 
@@ -69,18 +77,14 @@ class ProductDetailView(DetailView):
     template_name = 'products/product.html'
     title = 'Store - Каталог'
 
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductDetailView, self).get_context_data()
         context['form'] = ReviewsForm()
         context['colors'] = self.get_object().colors.split(",")
-        try:
-            context['baskets'] = Basket.objects.filter(user=self.request.user)
-        except:
-            context['baskets'] = None
         context['reviews'] = Reviews.objects.filter(product__id=self.object.id)
         context['specifications'] = self.get_object().specifications.split('\n')
         context['categories'] = ProductCategory.objects.all()
+        context['title'] = self.object.name
         return context
 
 
@@ -124,6 +128,7 @@ def basket_remove(request, basket_id):
     basket.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
+
 @login_required
 def basket_remove_all(request, basket_id):
     test = Basket.objects.all().filter(user=request.user)
@@ -147,5 +152,9 @@ def review_del(request, review_id):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
     else:
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+
+
 
 

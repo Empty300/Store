@@ -1,36 +1,39 @@
 {% if baskets %}
     <div class="col-md-5 order-details">
-    <div class="section-title text-center">
-        <h3 class="title">Корзина</h3>
-    </div>
-    <div class="order-summary">
-        <div class="order-col">
-            <div><strong>Товар</strong></div>
-            <div><strong>Цена</strong></div>
+        <div class="section-title text-center">
+            <h3 class="title">Корзина</h3>
         </div>
-        <div class="order-products">
-            {% for basket in baskets %}
-                <div class="order-col">
-                    <div><div class="product-widget"><a class="delete" href="{% url 'products:basket_remove' basket.id %}">
-                        <i class="fa fa-close"></i></a></div> ---<a href="{% url 'products:product' basket.product.slug %}">
-                        {{ basket.product.name }} x {{ basket.quantity }} {{ basket.color }}</a></div>
-                    <div>{{ basket.sum }} руб.</div>
+        <div class="order-summary">
+            <div class="order-col">
+                <div><strong>Товар</strong></div>
+                <div><strong>Цена</strong></div>
+            </div>
+            <div class="order-products">
+                {% for basket in baskets %}
+                    <div class="order-col">
+                        <div>
+                            <div class="product-widget"><a class="delete"
+                                                           href="{% url 'products:basket_remove' basket.id %}">
+                                <i class="fa fa-close"></i></a></div>
+                            ---<a href="{% url 'products:product' basket.product.slug %}">
+                            {{ basket.product.name }} x {{ basket.quantity }} {{ basket.color }}</a></div>
+                        <div>{{ basket.sum }} руб.</div>
 
-                </div>
-            {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="order-col">
+                <div><strong>Цена за всё:</strong></div>
+                <div><strong class="order-total">{{ baskets.total_sum }} руб.</strong></div>
+            </div>
         </div>
-        <div class="order-col">
-            <div><strong>Цена за всё:</strong></div>
-            <div><strong class="order-total">{{ baskets.total_sum }} руб.</strong></div>
-        </div>
+        <a href="{% url 'products:basket_remove_all' %}">Очитстить корзину</a>
+        <a href="{% url 'orders:order_create' %}" class="primary-btn order-submit">Заказать</a>
     </div>
-    <a href="{% url 'products:basket_remove_all' %}" >Очитстить корзину</a>
-    <a href="{% url 'orders:order_create' %}" class="primary-btn order-submit">Заказать</a>
-</div>
 {% else %}
     <div class="col-md-5 order-details">
-    <div class="section-title text-center">
-        <h3 class="title">Корзина пуста</h3>
-
-    </div></div></div>
+        <div class="section-title text-center">
+            <h3 class="title">Корзина пуста</h3>
+        </div>
+    </div>
 {% endif %}

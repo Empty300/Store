@@ -1,8 +1,7 @@
+from django import forms
 from django.forms import ModelForm
 
 from products.models import Reviews
-from users.models import User
-from django import forms
 
 
 class ReviewsForm(ModelForm):

@@ -1,6 +1,7 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 
+from main import settings
 from main.views import IndexView
 from orders.views import stripe_webhook_view
 
@@ -14,3 +15,5 @@ urlpatterns = [
     path('webhook/stripe', stripe_webhook_view, name='stripe_webhook')
 ]
 
+if settings.DEBUG:
+    urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))

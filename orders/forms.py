@@ -1,7 +1,6 @@
 from django import forms
 
 from orders.models import Order
-from users.models import User
 
 
 class OrderForm(forms.ModelForm):

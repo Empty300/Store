@@ -1,11 +1,13 @@
 import uuid
 from datetime import timedelta
 
+from django import forms
+from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
+                                       UserCreationForm)
 from django.forms import ModelForm
 from django.utils.timezone import now
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
-from users.models import User, EmailVerification
-from django import forms
+
+from users.models import EmailVerification, User
 
 
 class UserLoginForm(AuthenticationForm):
@@ -67,15 +69,15 @@ class UserProfileForm(UserChangeForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
                                                               'placeholder': "Ваша фамилия"}))
     country = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
-                                                               'placeholder': "Страна"}),required=False)
+                                                            'placeholder': "Страна"}), required=False)
     city = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
-                                                               'placeholder': "Город"}),required=False)
+                                                         'placeholder': "Город"}), required=False)
     address = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
-                                                               'placeholder': "Адрес"}),required=False)
+                                                            'placeholder': "Адрес"}), required=False)
     zipcode = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'input',
-                                                               'placeholder': "Почтовый код"}),required=False)
+                                                               'placeholder': "Почтовый код"}), required=False)
     telephone = forms.CharField(widget=forms.TextInput(attrs={'class': 'input',
-                                                               'placeholder': "Телефон"}),required=False)
+                                                              'placeholder': "Телефон"}), required=False)
 
     class Meta:
         model = User

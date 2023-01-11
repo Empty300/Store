@@ -1,40 +1,35 @@
 {% extends 'products/base.html' %}
 {% load static %}
-{%  block content %}
-		<!-- SECTION -->
-		<div class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-
-					<div class="col-md-5 order-details">
-						<!-- Billing Details -->
-						<div class="billing-details">
-							<div class="section-title">
-								<h3 class="title">Личные данные</h3>
-							</div>
-                            <form action="{% url 'users:profile' user.id %}" method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    {{ form.username }}
-                                    {{ form.email }}
-                                    {{ form.first_name }}
-                                    {{ form.last_name }}
-                                </div>
-                                    <button class="primary-btn cta-btn" >Сохранить</button>
-                                </form>
-                            </div></div>
-                        {% include 'products/basket.html' %}
-
-
-					<!-- Order Details -->
-
-					<!-- /Order Details -->
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /SECTION -->
+{% block content %}
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-5 order-details">
+                    <!-- Billing Details -->
+                    <div class="billing-details">
+                        <div class="section-title">
+                            <h3 class="title">Личные данные</h3>
+                        </div>
+                        <form action="{% url 'users:profile' user.id %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ form.username }}
+                                {{ form.email }}
+                                {{ form.first_name }}
+                                {{ form.last_name }}
+                            </div>
+                            <button class="primary-btn cta-btn">Сохранить</button>
+                        </form>
+                    </div>
+                </div>
+                {% include 'products/basket.html' %}
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /SECTION -->
 {% endblock %}

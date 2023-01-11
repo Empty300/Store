@@ -1,14 +1,13 @@
 {% extends 'products/base.html' %}
 {% load static %}
-{%  block content %}
+{% block content %}
     <div class="container">
         <!-- row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="billing-details1">
-
                     <p>Введите email</p>
-                {% if  msg  %}
+                    {% if  msg %}
                         <div id="errors">
                             <div class="errors1">
                                 {{ msg }}

@@ -1,59 +1,59 @@
 {% extends 'products/base.html' %}
 {% load static %}
 {% load socialaccount %}
-{%  block content %}
-    <div class="main"
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="billing-details1">
-                    <p>Вход в личный кабинет</p>
-                    {% if messages or form.non_field_errors %}
-                    <div id="errors">
-                        <div class="errors1">
-                            {% if messages %}
-                                {% for message in messages %}
-                                    {{ message }}
-                            {% endfor %}
-                             {% endif %}
-                            {{ form.non_field_errors }}
+{% block content %}
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="billing-details1">
+                        <p>Вход в личный кабинет</p>
+                        {% if messages or form.non_field_errors %}
+                            <div id="errors">
+                                <div class="errors1">
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            {{ message }}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {{ form.non_field_errors }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <form action="{% url 'users:login' %}" method="POST">
+                            {% csrf_token %}
+                            {{ form.username }}
+                            {{ form.password }}
+                            <button class="primary-btn cta-btn">Войти</button>
+                        </form>
+                        <div class="list-group-item1">
+                            <p>Войти с помощью:</p>
+                            <a href="{% provider_login_url 'github' %}">
+                                <i class="fa fa-github  fa-3x" aria-hidden="true" style="color: #303030;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-google  fa-3x" aria-hidden="true" style="color: #303030;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-facebook  fa-3x" aria-hidden="true" style="color: #303030;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-vk  fa-3x" aria-hidden="true" style="color: #303030;"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-twitter  fa-3x" aria-hidden="true" style="color: #303030;"></i>
+                            </a>
                         </div>
-                    </div>
-                    {% endif %}
-                    <form action="{% url 'users:login' %}" method="POST">
-                        {% csrf_token %}
-                        {{ form.username }}
-                        {{ form.password }}
-                        <button class="primary-btn cta-btn">Войти</button>
-                    </form>
-                    <div class="list-group-item1">
-                        <p>Войти с помощью:</p>
-                        <a href="{% provider_login_url 'github'%}">
-                            <i class="fa fa-github  fa-3x" aria-hidden="true" style="color: #303030;"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-google  fa-3x" aria-hidden="true" style="color: #303030;"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-facebook  fa-3x" aria-hidden="true" style="color: #303030;"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-vk  fa-3x" aria-hidden="true" style="color: #303030;"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-twitter  fa-3x" aria-hidden="true" style="color: #303030;"></i>
-                        </a>
-                    </div>
-                    <p> </p>
-                    <p>Нет аккаунта?</p>
-                    <h4><a href="{% url 'users:registration'  %}">Зарегестрироваться</a></h4>
-                    <h4><a href="{% url 'users:password_reset'  %}">Забыли пароль?</a></h4>
+                        <p></p>
+                        <p>Нет аккаунта?</p>
+                        <h4><a href="{% url 'users:registration' %}">Зарегестрироваться</a></h4>
+                        <h4><a href="{% url 'users:password_reset' %}">Забыли пароль?</a></h4>
 
+                    </div>
                 </div>
             </div>
+            <!-- /row -->
         </div>
-        <!-- /row -->
-    </div>
     </div>
 
 {% endblock %}

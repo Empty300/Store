@@ -1,40 +1,40 @@
 from http import HTTPStatus
 
 import stripe
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, TemplateView, ListView, DetailView
+from django.views.generic import CreateView, DetailView, ListView, TemplateView
 
+from common.views import CommonMixin
 from main import settings
 from orders.forms import OrderForm
 from orders.models import Order
 from products.models import Basket
-from users.forms import UserProfileForm
-from users.models import User
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-class SuccessTemplateView(TemplateView):
+class SuccessTemplateView(CommonMixin, TemplateView):
     template_name = 'orders/success.html'
     title = 'Store - Спасибо за заказ!'
 
 
-class CanceledTemplateView(TemplateView):
+class CanceledTemplateView(CommonMixin, TemplateView):
     template_name = 'orders/canceled.html'
-    title = 'Store - Спасибо за заказ!'
+    title = 'Store - Заказ отменен!'
 
 
-class OrderListView(ListView):
+class OrderListView(CommonMixin, ListView):
     template_name = 'orders/orders.html'
+    title = 'Store - Мои заказы'
     queryset = Order.objects.all()
     ordering = ('-id')
 
     def get_queryset(self):
         queryset = super(OrderListView, self).get_queryset()
         return queryset.filter(initiator=self.request.user)
+
 
 class OrderDetailView(DetailView):
     template_name = 'orders/order.html'
@@ -46,7 +46,7 @@ class OrderDetailView(DetailView):
         return context
 
 
-class OrderCreateView(CreateView):
+class OrderCreateView(CommonMixin, CreateView):
     template_name = 'orders/checkout.html'
     title = 'Store - Оформление заказа'
     form_class = OrderForm
@@ -63,11 +63,6 @@ class OrderCreateView(CreateView):
             cancel_url='{}{}'.format(settings.DOMAIN_NAME, reverse('orders:order_canceled')),
         )
         return HttpResponseRedirect(checkout_session.url, status=HTTPStatus.SEE_OTHER)
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(OrderCreateView, self).get_context_data()
-        context['baskets'] = Basket.objects.filter(user=self.request.user)
-        return context
 
     def form_valid(self, form):
         form.instance.initiator = self.request.user
@@ -98,4 +93,3 @@ def fulfill_order(session):
     order_id = int(session.metadata.order_id)
     order = Order.objects.get(id=order_id)
     order.update_after_payment()
-

@@ -1,10 +1,8 @@
 from django.conf import settings
-from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
+from django.db import models
 from django.urls import reverse
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
 from django.utils.timezone import now
 
 
@@ -45,5 +43,3 @@ class EmailVerification(models.Model):
 
     def is_expired(self):
         return True if now() >= self.expiration else False
-
-

@@ -1,161 +1,139 @@
 {% extends 'products/base.html' %}
 {% load static %}
-{%  block content %}
-<!-- SECTION -->
-<div class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-            <!-- ASIDE -->
-            <div id="aside" class="col-md-3">
-                <!-- aside Widget -->
-            <form action="{% url 'products:index' %}" method="get" >
-                <div class="aside">
-                    {% if categories.count > 5 %}
-                        <input type="checkbox" class="read-more-checker" id="read-more-checker" />
-                        <div class="limited">
-                    {% endif %}
-                        <h3 class="aside-title">Категории</h3>
-                        <div class="checkbox-filter">
-                            {% for category in categories %}
-                                <div class="input-checkbox">
-                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/cookiesjs/1.4.2/cookies.min.js"></script>
-                                    <input id="{{ category.id }}"  type="checkbox" name="Category" value="{{ category.id }}"  onclick="this.form.submit()" >
-                                    <label for={{ category.id }}>
-                                        <span></span>
-                                        {{ category.name }}
-                                        <small>{{ category.items_count }}</small>
-                                    </label>
-
+{% block content %}
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- ASIDE -->
+                <div id="aside" class="col-md-3">
+                    <!-- aside Widget -->
+                    <form action="{% url 'products:index' category.id %}" method="get" name="filter">
+                        <div class="aside">
+                            <h3 class="aside-title">Цена</h3>
+                            <div class="price-filter">
+                                <div id="price-slider" min="{{ min_price }}" max="{{ max_price }}"></div>
+                                <div class="input-number price-min">
+                                    <input id="price-min" name="min_price" type="number" value="">
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
                                 </div>
-
-                            {% endfor %}
-
-                        </div>
-                    {% if categories.count > 5 %}
-                        </div>
-                        <label for="read-more-checker" class="read-more-button"></label>
-                    {% endif %}
-                </div>
-            </form>
-
-
-                <!-- /aside Widget -->
-
-                <form action="{% url 'products:index' %}" method="get" id="form1" name="theForm"> <!-- aside Widget -->
-                    <div class="aside">
-                        <h3 class="aside-title">Цена</h3>
-                        <div class="price-filter" >
-
-                            <div id="price-slider" min="{{ min_price }}" max="{{ max_price }}" ></div>
-                            <div class="input-number price-min">
-                                <input id="price-min" name=""  type="number" >
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
-                            </div>
-                            <span>-</span>
-                            <div class="input-number price-max">
-                                <input id="price-max" type="number">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
+                                <span>-</span>
+                                <div class="input-number price-max">
+                                    <input id="price-max" name="max_price" type="number">
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
 
-                <!-- /aside Widget -->
+                        <!-- /aside Widget -->
 
-                <!-- aside Widget -->
-                <div class="aside">
-                    {% if brands.count > 5 %}
-                        <input type="checkbox" class="read-more-checker" id="read-more-checker1" />
-                        <div class="limited">
-                    {% endif %}
-                        <h3 class="aside-title">Бренд</h3>
-                        <div class="checkbox-filter">
-                            {% for brand in brands %}
-                                <div class="input-checkbox">
-                                    <input id="{{ brand.brand }}" type="checkbox" name="Brand" value="{{ brand.brand }}" onclick="this.form.submit()">
+                        <!-- aside Widget -->
+                        <div class="aside">
+                            {% if brands.count > 10 %}
+                                <input type="checkbox" class="read-more-checker" id="read-more-checker1"/>
+                                <div class="limited">
+                            {% endif %}
+                            <h3 class="aside-title">Бренд</h3>
+                            <div class="checkbox-filter">
+                                {% for brand in brands %}
+                                    <div class="input-checkbox">
+
+                                        <input id="{{ brand.brand }}" type="checkbox" name="Brand"
+                                               value="{{ brand.brand }}" class="task" >
                                         <label for={{ brand.brand }}>
+
                                             <span></span>
                                             {{ brand.brand }}
-                                        <small>{{ brand.items_count }}</small>
-                                    </label>
+                                            <small>{{ brand.items_count }}</small>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if brands.count > 10 %}
+                                </div><label for="read-more-checker1" class="read-more-button"></label>
+                            {% endif %}
+                        </div>
+                        <button class="primary-btn">Оставить отзыв</button>
+                    </form>
+
+
+
+                    <!-- /aside Widget -->
+
+
+                    <!-- /aside Widget -->
+                </div>
+                <!-- /ASIDE -->
+
+                <!-- STORE -->
+                <div id="store" class="col-md-9">
+                    <div class="row infinite-container">
+                        {% if object_list %}
+                            {% for product in object_list %}
+                                <div class="col-md-4 col-xs-6 infinite-item">
+                                    <div class="product">
+                                        <div class="product-img">
+                                            <img src="{{ product.image1 }}" alt="">
+                                            {% if product.discount %}
+                                                <div class="product-label">
+                                                    <span class="new"><strong>-{{ product.discount }}%</strong></span>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="product-body">
+                                            <a class="product-category"
+                                               href="?Category={{ product.category.id }}">{{ product.category }}</a>
+                                            <div class="items-text1">
+                                                <h3 class="product-name"><a
+                                                        href="{% url 'products:product' product.slug %}">
+                                                    {{ product.name }}</a></h3>
+                                            </div>
+                                            {% if product.discount %}
+                                                <h3 class="product-price">{{ product.price_now }}₽
+                                                    <del class="product-old-price">
+                                                        {{ product.price_old }}₽
+                                                    </del>
+                                                </h3>
+                                            {% else %}
+                                                <h3 class="product-price">{{ product.price_old }}₽</h3>
+                                            {% endif %}
+                                        </div>
+                                        <div class="add-to-cart">
+                                            <form action="{% url 'products:basket_add' product.id %}" method="get">
+                                                <button class="add-to-cart-btn">
+                                                    <i class="fa fa-shopping-cart"></i>Добавить
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             {% endfor %}
-                        </div>
-                    {% if brands.count > 5 %}
-                        </div><label for="read-more-checker1" class="read-more-button"></label>
-                    {% endif %}
+                        {% else %}
+                            <h3 class="product-name">Такого товара нет</h3>
+                        {% endif %}
                     </div>
-                        </form>
 
-
-
-                <!-- /aside Widget -->
-
-
-                <!-- /aside Widget -->
-            </div>
-            <!-- /ASIDE -->
-
-            <!-- STORE -->
-            <div id="store" class="col-md-9">
-               <div class="row infinite-container">
-                {% if object_list %}
-                    {% for product in object_list %}
-                        <div class="col-md-4 col-xs-6 infinite-item">
-                            <div class="product">
-                                <div class="product-img">
-                                    <img src="{{ product.image1 }}" alt="">
-                                    {% if product.discount %}
-                                    <div class="product-label">
-                                        <span class="new"><strong>-{{ product.discount }}%</strong></span>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                                <div class="product-body">
-                                    <a class="product-category" href="?Category={{ product.category.id  }}" >{{ product.category }}</a>
-                                <div class="items-text1">
-                                    <h3 class="product-name"><a href="{% url 'products:product' product.slug %}">
-                                        {{ product.name }}</a></h3>
-                                </div>
-                                    {% if product.price_now %}
-                                    <h3 class="product-price">{{ product.price_now }}₽<del class="product-old-price">
-                                        {{product.price_old}}₽</del></h3>
-                                    {% else %}
-                                        <h3 class="product-price">{{ product.price_old }}₽</h3>
-                                    {% endif %}
-                                </div>
-                                <div class="add-to-cart">
-                                    <form action="{% url 'products:basket_add' product.id %}" method="get">
-                                        <button class="add-to-cart-btn" >
-                                            <i class="fa fa-shopping-cart"></i>Добавить</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                <h3 class="product-name">Такого товара нет</h3>
-                {% endif %}
+                    <!-- /store products -->
+                    <!-- store bottom filter -->
+                    <div class="store-filter clearfix">
+                        {% if page_obj.has_next %}
+                            <a class="infinite-more-link"
+                               href="?page={{ page_obj.next_page_number }}{% if query %}{{ query }}{% endif %}"
+                               id="pag">next</a>
+                        {% endif %}
+                    </div>
+                    <!-- /store bottom filter -->
                 </div>
-
-                <!-- /store products -->
-                <!-- store bottom filter -->
-                <div class="store-filter clearfix">
-                    {% if page_obj.has_next %}
-                        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}{% if query %}{{ query }}{% endif %}" id="pag">next</a>
-                    {% endif %}
-                </div>
-                <!-- /store bottom filter -->
+                <!-- /STORE -->
             </div>
-            <!-- /STORE -->
+            <!-- /row -->
         </div>
-        <!-- /row -->
+        <!-- /container -->
     </div>
-    <!-- /container -->
-</div>
 {% endblock %}
 

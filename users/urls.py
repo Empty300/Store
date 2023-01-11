@@ -1,8 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 from django.urls import path
-from users.views import UserRegistrationView, UserProfileView, UserLoginView, EmailVerificationView, password_reset, \
-    PasswordResetView
-from django.contrib.auth.decorators import login_required
+
+from users.views import (EmailVerificationView, PasswordResetView,
+                         UserLoginView, UserProfileView, UserRegistrationView,
+                         password_reset)
+
 app_name = 'users'
 
 urlpatterns = [

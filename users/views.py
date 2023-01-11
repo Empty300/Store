@@ -4,25 +4,26 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from django.views.generic import CreateView, UpdateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 
+from common.views import CommonMixin
 from main import settings
-from products.models import Basket
-from users.models import User, EmailVerification
-from users.forms import UserLoginForm, RegisterForm, UserProfileForm, UserResetPassForm
-from django.urls import reverse_lazy, reverse
+from users.forms import (RegisterForm, UserLoginForm, UserProfileForm,
+                         UserResetPassForm)
+from users.models import EmailVerification, User
 
 
-class UserLoginView(LoginView):
+class UserLoginView(CommonMixin, LoginView):
     model = User
     form_class = UserLoginForm
     template_name = 'users/login.html'
     title = 'Store - Авторизация'
 
 
-class UserRegistrationView(SuccessMessageMixin, CreateView):
+class UserRegistrationView(CommonMixin, SuccessMessageMixin, CreateView):
     model = User
     form_class = RegisterForm
     template_name = 'users/registration.html'
@@ -33,7 +34,7 @@ class UserRegistrationView(SuccessMessageMixin, CreateView):
     title = 'Store - Регистрация'
 
 
-class UserProfileView(UpdateView):
+class UserProfileView(CommonMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     template_name = 'users/profile.html'
@@ -48,20 +49,15 @@ class UserProfileView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.object.id,))
 
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileView, self).get_context_data()
-        context['baskets'] = Basket.objects.filter(user=self.object)
-        return context
 
-
-class EmailVerificationView(TemplateView):
+class EmailVerificationView(CommonMixin, TemplateView):
     title = 'Store - Подтверждение электронной почты'
     template_name = 'users/email_verification.html'
 
     def get(self, request, *args, **kwargs):
         code = kwargs['code']
         user = User.objects.get(email=kwargs['email'])
-        email_verifications = EmailVerification.objects.filter(user=user,code=code)
+        email_verifications = EmailVerification.objects.filter(user=user, code=code)
         if email_verifications.exists() and not email_verifications.first().is_expired():
             user.is_verified_email = True
             user.save()
@@ -71,14 +67,16 @@ class EmailVerificationView(TemplateView):
 
 
 def password_reset(request):
+    title = 'Store - сброс пароля'
     if request.method == 'GET':
         form = UserResetPassForm()
-        context = {'form': form}
+        context = {'form': form,
+                   'title': title}
         return render(request, 'users/reset_pass.html', context)
     else:
         try:
             user = User.objects.get(email=request.POST["email"])
-        except:
+        except User.DoesNotExist:
             user = False
         if user:
             token = default_token_generator.make_token(user)
@@ -99,18 +97,20 @@ def password_reset(request):
             )
             form = UserResetPassForm()
             context = {'msg': 'Письмо с ссылкой для сброса пароля отправлено вам на почту',
-                       'form':form,}
+                       'form': form,
+                       'title': title}
 
             return render(request, 'users/reset_pass.html', context)
         else:
             form = UserResetPassForm()
             context = {'msg': 'Пользователь с таким email не найден',
-                       'form': form}
+                       'form': form,
+                       'title': title}
             return render(request, 'users/reset_pass.html', context)
 
 
-class PasswordResetView(SuccessMessageMixin, PasswordResetConfirmView):
+class PasswordResetView(CommonMixin, SuccessMessageMixin, PasswordResetConfirmView):
     template_name = 'users/new_password.html'
     success_message = "Пароль успешно изменен"
     success_url = reverse_lazy("users:login")
-
+    title = 'Store - сброс пароля'

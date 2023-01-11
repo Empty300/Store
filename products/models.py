@@ -1,15 +1,17 @@
-from django.db import models
 import stripe
+from django.db import models
 
 from main import settings
 from users.models import User
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
 class ProductCategory(models.Model):
     name = models.CharField(max_length=128, unique=True)
     description = models.TextField(null=True, blank=True)
     products_count = models.DecimalField(verbose_name='Количество товара', max_digits=8, decimal_places=2, default=0)
+    image1 = models.URLField(max_length=256, null=True)
 
     def __str__(self):
         return self.name

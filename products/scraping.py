@@ -1,8 +1,11 @@
+import traceback
+
 import requests
 
 from products.models import Product
-# from products.models import Product
-from products.scrap_settings import cookies, headers, categories_revers, categories_ids
+from products.scrap_settings import (categories_ids, categories_revers,
+                                     cookies, headers)
+
 """
 {
     'name': 'Смартфон Apple iPhone 11 64GB White',
@@ -45,7 +48,7 @@ def scraping():
             params['offset'] = i
             response = requests.get('https://www.mvideo.ru/bff/products/listing', params=params, cookies=cookies,
                                     headers=headers).json()
-            if len(id_list) >= 25:
+            if len(id_list) >= 50:
                 break
             for j in (response['body']['products']):
                 if j not in id_list:
@@ -58,11 +61,12 @@ def scraping():
                                         cookies=cookies, headers=headers).json()
                 response_price = requests.get(f'https://www.mvideo.ru/bff/products/prices?productIds={id}'
                                               f'&isPromoApplied=true&addBonusRubles=true',
-                                        cookies=cookies, headers=headers).json()
+                                              cookies=cookies, headers=headers).json()
                 specif = list()
                 for i in response['body']['properties']['key']:
                     for j in i['properties']:
-                        specif.append(f"{j['name']}: {j['value']}.{j['nameDescription'] if j['nameDescription'] else ''}")
+                        specif.append(
+                            f"{j['name']}: {j['value']}.{j['nameDescription'] if j['nameDescription'] else ''}")
                 if response['body']['variants']:
                     colors = list()
                     for color in response['body']['variants'][0]:
@@ -71,15 +75,20 @@ def scraping():
                                 colors.append(val['value'])
                 else:
                     colors = list()
-                img3 = f"https://img.mvideo.ru/{response['body']['images'][3]}" if len(response['body']['images']) > 3 else " "
+                img3 = f"https://img.mvideo.ru/{response['body']['images'][3]}" if len(
+                    response['body']['images']) > 3 else " "
+                price_discount = response_price['body']['materialPrices'][0]['price']['basePromoPrice']
                 item = {
                     'name': response['body']['name'],
-                    'price_now': response_price['body']['materialPrices'][0]['price']['basePromoPrice'],
+                    'price_now': price_discount if price_discount else
+                    response_price['body']['materialPrices'][0]['price']['basePrice'],
                     'price_old': response_price['body']['materialPrices'][0]['price']['basePrice'],
                     'quantity': 10,
                     'specifications': specif,
-                    'image1': f"https://img.mvideo.ru/{response['body']['images'][1]}" if response['body']['images'][1] else None,
-                    'image2': f"https://img.mvideo.ru/{response['body']['images'][2]}" if response['body']['images'][2] else None,
+                    'image1': f"https://img.mvideo.ru/{response['body']['images'][1]}" if response['body']['images'][
+                        1] else None,
+                    'image2': f"https://img.mvideo.ru/{response['body']['images'][2]}" if response['body']['images'][
+                        2] else None,
                     'image3': img3,
                     'category': categories_revers[params['categoryId']],
                     'short_description': response['body']['description'],
@@ -89,14 +98,16 @@ def scraping():
                     'brand': response['body']['brandName'],
                 }
             except Exception as exc:
-                print("traceback.print_exc():")
+                print(exc)
                 continue
-            try:
-                disc = round(100-item['price_now']/item['price_old']*100)
-            except:
+
+            disc = round(100 - item['price_now'] / item['price_old'] * 100)
+            if disc == 0:
                 disc = None
+
             nwords = ['Black', 'Green', '128GB', '4/128Gb', '256GB', 'Space', 'Light', 'Dark Green',
-                      'Light Silver', 'White', 'Sierra Blue', 'Midnight', 'Alpine Green', 'Blue', 'Gray', 'Quantum Black',
+                      'Light Silver', 'White', 'Sierra Blue', 'Midnight', 'Alpine Green', 'Blue', 'Gray',
+                      'Quantum Black',
                       'Purple', 'Dawn Gold', 'Granite Gray', 'Silver', 'Dark']
             result_name = list()
             for name in item['name'].split():
@@ -126,49 +137,5 @@ def scraping():
             print(item['brand'])
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # result_list = response['body']['products']
-    # json_data['productIds'] = id_list
-    # response = requests.post('https://www.mvideo.ru/bff/product-details/list', cookies=cookies, headers=headers,
-    #                         json=json_data).json()
-    # for i in response['body']['products']:
-    #     result_list.append(i)
-    #
-    # result_info = {}
-    # for i in result_list:
-    #     imgs = list()
-    #     for img in i['images']:
-    #         imgs.append(f"https://img.mvideo.ru/{img}")
-    #     link = f"https://www.mvideo.ru/products/{i['nameTranslit']}-{i['productId']}"
-
-
-
-
-
-
-        # result_info[i["productId"]] = {
-        #     'name': i['name'],
-        #     "img_link": img,
-        #     "link": f"https://www.mvideo.ru/products/{i['nameTranslit']}-{i['productId']}"
-        # }
-
-
 if __name__ == '__main__':
     scraping()
-
-

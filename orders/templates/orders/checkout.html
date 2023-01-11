@@ -1,7 +1,7 @@
 {% extends 'products/base.html' %}
 {% load static %}
-{%  block content %}
-		<!-- SECTION -->
+{% block content %}
+    <!-- SECTION -->
     <div class="section">
         <!-- container -->
         <div class="container">
@@ -14,7 +14,7 @@
                         <div class="section-title">
                             <h3 class="title">Адресс доставки</h3>
                         </div>
-                        <form action="{% url 'orders:order_create' %}" method="POST" >
+                        <form action="{% url 'orders:order_create' %}" method="POST">
                             {% csrf_token %}
                             {{ form.first_name }}
                             {{ form.last_name }}
@@ -24,7 +24,7 @@
                             {{ form.address }}
                             {{ form.zipcode }}
                             {{ form.telephone }}
-                            <button class="primary-btn" >Заказать</button>
+                            <button class="primary-btn">Заказать</button>
                         </form>
 
                     </div>
@@ -47,7 +47,7 @@
                             {% for basket in baskets %}
                                 <div class="order-col">
                                     <a href="{% url 'products:product' basket.product.slug %}">
-                                    {{ basket.product.name }} x {{ basket.quantity }} {{ basket.color }}</a>
+                                        {{ basket.product.name }} x {{ basket.quantity }} {{ basket.color }}</a>
                                     <div>{{ basket.sum }} руб.</div>
                                 </div>
                             {% endfor %}
@@ -69,6 +69,6 @@
         </div>
         <!-- /container -->
     </div>
-		<!-- /SECTION -->
+    <!-- /SECTION -->
 
 {% endblock %}
