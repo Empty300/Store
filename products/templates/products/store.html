@@ -9,9 +9,43 @@
             <div class="row">
                 <!-- ASIDE -->
                 <div id="aside" class="col-md-3">
-                    <!-- aside Widget -->
-                    <form action="{% url 'products:index' category.id %}" method="get" name="filter">
+                    <script src="{% static 'js/localstorage.js' %}"></script>
+                    <form action="{% url 'products:index' category.id %}" method="get" id="form12" name="filter">
                         <div class="aside">
+
+                            <div class="store-sort">
+								<label>
+									<h4 class="aside-title">Сначала:</h4>
+									<select id="selectItem" class="input-select" name="order">
+                                        <option value="discount" name="order">С наибольшей скидкой</option>
+										<option value="-price_now" name="order">Дорогие</option>
+										<option value="price_now" name="order">Дешевые</option>
+
+									</select>
+								</label>
+						</div>
+                    <script src="{% static 'js/jquery.min.js' %}"></script>
+                        <script>
+                            const select = document.getElementById('selectItem');
+
+                            function load() {
+                                const sel = window.location.search.replace('?', '').split('&').filter((item) => item.indexOf(select.name) !== -1);
+                                if (sel.length) {
+                                    select.value = sel[0].split('=')[1];
+                                }
+                            }
+
+                            jQuery(function ($) {
+                                $('#selectItem').on('change', function () {
+                                    $(this.form).submit();
+                                    let search = window.location.search.replace('?', '').split('&');
+                                    search = search.filter((item) => item.indexOf(select.name) === -1);
+                                    search.push(select.name + '=' + select.value);
+                                    window.location.search = '?' + search.join('&');
+                                    console.log('мовпк');
+                                });
+                            });
+                        </script>
                             <h3 class="aside-title">Цена</h3>
                             <div class="price-filter">
                                 <div id="price-slider" min="{{ min_price }}" max="{{ max_price }}"></div>
@@ -42,8 +76,7 @@
                             <div class="checkbox-filter">
                                 {% for brand in brands %}
                                     <div class="input-checkbox">
-
-                                        <input id="{{ brand.brand }}" type="checkbox" name="Brand"
+                                        <input  id="{{ brand.brand }}" type="checkbox" name="Brand"
                                                value="{{ brand.brand }}" class="task" >
                                         <label for={{ brand.brand }}>
 
@@ -60,7 +93,7 @@
                         </div>
                         <button class="primary-btn">Оставить отзыв</button>
                     </form>
-
+                    <script src="{% static 'js/localstorage.js' %}"></script>
 
 
                     <!-- /aside Widget -->
@@ -72,6 +105,9 @@
 
                 <!-- STORE -->
                 <div id="store" class="col-md-9">
+                    <div class="store-filter clearfix">
+                    <h3 class="aside-title">{{ category.name }}</h3>
+
                     <div class="row infinite-container">
                         {% if object_list %}
                             {% for product in object_list %}

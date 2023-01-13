@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Q
+from django.db.models import Count, Q, F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -57,17 +57,18 @@ class ProductsListView(CommonMixin, ListView):
         if 'Brand' in self.request.GET and 'max_price' in self.request.GET:
             queryset = Product.objects.filter(category_id=self.kwargs['category_id'],
                                               brand__in=self.request.GET.getlist("Brand"),
-                                              price_now__gte=self.request.GET.get("min_price")[:-1],
-                                              price_now__lte=self.request.GET.get("max_price")[:-1]
-                                              )
-        elif 'Brand' in self.request.GET:
-            queryset = Product.objects.filter(category_id=self.kwargs['category_id'],
-                                              brand__in=self.request.GET.getlist("Brand"),
-                                              )
+                                              price_now__gte=self.request.GET.get("min_price")[:-1] if
+                                              isinstance(self.request.GET.get("min_price")[:-1], str) else 0,
+                                              price_now__lte=self.request.GET.get("max_price")[:-1] if
+                                              isinstance(self.request.GET.get("min_price")[:-1], str) else 1000000
+                                              ).order_by((F('discount').desc(nulls_last=True) if
+                                                                                 'discount' in self.request.GET['order']
+                else self.request.GET['order']) if 'order' in self.request.GET else 'name')
         # elif 'Search' in self.request.GET:
         #     queryset = Product.objects.filter(name__iregex=self.request.GET.get("Search"))
         else:
-            queryset = Product.objects.all().filter(category_id=self.kwargs['category_id'])
+            queryset = Product.objects.all().filter(category_id=self.kwargs['category_id']).order_by((F('discount').desc(nulls_last=True) if 'discount' in self.request.GET['order']
+                else self.request.GET['order']) if 'order' in self.request.GET else 'name')
 
         return queryset
 
