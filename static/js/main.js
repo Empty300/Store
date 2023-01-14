@@ -157,9 +157,11 @@
 	var priceSlider = document.getElementById('price-slider')
 	var minn = priceSlider.getAttribute("min")
 	var maxx = priceSlider.getAttribute("max")
+	var start_min = priceSlider.getAttribute("start_min")
+	var start_max = priceSlider.getAttribute("start_max")
 	if (priceSlider) {
 		noUiSlider.create(priceSlider, {
-			start: [Number(minn), Number(maxx)],
+			start: [Number(start_min), Number(start_max)],
 			connect: true,
 			step: 1,
 			range: {

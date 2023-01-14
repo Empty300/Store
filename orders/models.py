@@ -20,7 +20,7 @@ class Order(models.Model):
     last_name = models.CharField(max_length=64)
     email = models.EmailField(max_length=64)
     address = models.CharField(max_length=256)
-    zipcode = models.IntegerField()
+    zipcode = models.CharField(max_length=256)
     telephone = models.CharField(max_length=256)
     basket_history = models.JSONField(default=dict)
     created = models.DateTimeField(auto_now_add=True)

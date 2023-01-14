@@ -1,5 +1,3 @@
-import traceback
-
 import requests
 
 from products.models import Product

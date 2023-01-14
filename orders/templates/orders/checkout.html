@@ -1,15 +1,10 @@
 {% extends 'products/base.html' %}
 {% load static %}
 {% block content %}
-    <!-- SECTION -->
     <div class="section">
-        <!-- container -->
         <div class="container">
-            <!-- row -->
             <div class="row">
-
                 <div class="col-md-7">
-                    <!-- Billing Details -->
                     <div class="billing-details">
                         <div class="section-title">
                             <h3 class="title">Адресс доставки</h3>
@@ -26,14 +21,8 @@
                             {{ form.telephone }}
                             <button class="primary-btn">Заказать</button>
                         </form>
-
                     </div>
-                    <!-- /Shiping Details -->
-
-                    <!-- Order notes -->
                 </div>
-
-                <!-- Order Details -->
                 <div class="col-md-5 order-details">
                     <div class="section-title text-center">
                         <h3 class="title">Твой заказ</h3>
@@ -61,14 +50,8 @@
                             <div><strong class="order-total">{{ baskets.total_sum }} руб.</strong></div>
                         </div>
                     </div>
-
                 </div>
-                <!-- /Order Details -->
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
-    <!-- /SECTION -->
-
 {% endblock %}

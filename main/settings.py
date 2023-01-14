@@ -24,14 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c&48*5vs(2k2qba!evmb0py-8!aea+@xu&ma4)3kp+1dy$^41s'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-DOMAIN_NAME = 'http://127.0.0.1:8000/'
+DOMAIN_NAME = os.getenv('DOMAIN_NAME')
 # Application definition
 
 INSTALLED_APPS = [
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'debug_toolbar',
+    'django_extensions',
 
     'products',
     'users',
@@ -102,8 +103,8 @@ DATABASES = {
         'NAME': 'test-store_db',
         'USER': os.getenv('DATABASES_USER'),
         'PASSWORD': os.getenv('DATABASES_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': os.getenv('DATABASES_HOST'),
+        'PORT': os.getenv('DATABASES_PORT'),
     }
 }
 

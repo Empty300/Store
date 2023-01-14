@@ -22,7 +22,7 @@ class OrderForm(forms.ModelForm):
     city = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'input',
         'placeholder': "Иркутск"}))
-    zipcode = forms.IntegerField(widget=forms.TextInput(attrs={
+    zipcode = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'input',
         'placeholder': "Почтовый код"}))
     telephone = forms.CharField(widget=forms.TextInput(attrs={

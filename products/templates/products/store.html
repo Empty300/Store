@@ -1,56 +1,37 @@
 {% extends 'products/base.html' %}
 {% load static %}
 {% block content %}
-    <!-- SECTION -->
     <div class="section">
-        <!-- container -->
         <div class="container">
-            <!-- row -->
             <div class="row">
-                <!-- ASIDE -->
                 <div id="aside" class="col-md-3">
                     <script src="{% static 'js/localstorage.js' %}"></script>
                     <form action="{% url 'products:index' category.id %}" method="get" id="form12" name="filter">
                         <div class="aside">
-
                             <div class="store-sort">
-								<label>
-									<h4 class="aside-title">Сначала:</h4>
-									<select id="selectItem" class="input-select" name="order">
-                                        <option value="discount" name="order">С наибольшей скидкой</option>
-										<option value="-price_now" name="order">Дорогие</option>
-										<option value="price_now" name="order">Дешевые</option>
-
-									</select>
-								</label>
-						</div>
-                    <script src="{% static 'js/jquery.min.js' %}"></script>
-                        <script>
-                            const select = document.getElementById('selectItem');
-
-                            function load() {
-                                const sel = window.location.search.replace('?', '').split('&').filter((item) => item.indexOf(select.name) !== -1);
-                                if (sel.length) {
-                                    select.value = sel[0].split('=')[1];
-                                }
-                            }
-
-                            jQuery(function ($) {
-                                $('#selectItem').on('change', function () {
-                                    $(this.form).submit();
-                                    let search = window.location.search.replace('?', '').split('&');
-                                    search = search.filter((item) => item.indexOf(select.name) === -1);
-                                    search.push(select.name + '=' + select.value);
-                                    window.location.search = '?' + search.join('&');
-                                    console.log('мовпк');
-                                });
-                            });
-                        </script>
+                                <label>
+                                    <h4 class="aside-title">Сначала:</h4>
+                                    <select id="selectItem" class="input-select" name="order">
+                                        <option value="discount" name="order" {% if old_order == 'discount' %}
+                                                selected {% endif %}>С наибольшей скидкой
+                                        </option>
+                                        <option value="-price_now" name="order" {% if old_order == '-price_now' %}
+                                                selected {% endif %} >Дорогие
+                                        </option>
+                                        <option value="price_now" name="order"{% if old_order == 'price_now' %}
+                                                selected {% endif %} >Дешевые
+                                        </option>
+                                    </select>
+                                </label>
+                            </div>
                             <h3 class="aside-title">Цена</h3>
                             <div class="price-filter">
-                                <div id="price-slider" min="{{ min_price }}" max="{{ max_price }}"></div>
+                                <div id="price-slider" min="{{ min_price }}" max="{{ max_price }}"
+                                        {% if old_min_price %} start_min="{{ old_min_price }}"
+                                     start_max="{{ old_max_price }}" {% else %} start_min="{{ min_price }}"
+                                     start_max="{{ max_price }}" {% endif %} ></div>
                                 <div class="input-number price-min">
-                                    <input id="price-min" name="min_price" type="number" value="">
+                                    <input id="price-min" name="min_price" type="number">
                                     <span class="qty-up">+</span>
                                     <span class="qty-down">-</span>
                                 </div>
@@ -62,11 +43,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        <!-- /aside Widget -->
-
-                        <!-- aside Widget -->
                         <div class="aside">
                             {% if brands.count > 10 %}
                                 <input type="checkbox" class="read-more-checker" id="read-more-checker1"/>
@@ -76,10 +52,9 @@
                             <div class="checkbox-filter">
                                 {% for brand in brands %}
                                     <div class="input-checkbox">
-                                        <input  id="{{ brand.brand }}" type="checkbox" name="Brand"
-                                               value="{{ brand.brand }}" class="task" >
+                                        <input id="{{ brand.brand }}" type="checkbox" name="Brand"
+                                               value="{{ brand.brand }}" class="task">
                                         <label for={{ brand.brand }}>
-
                                             <span></span>
                                             {{ brand.brand }}
                                             <small>{{ brand.items_count }}</small>
@@ -91,23 +66,11 @@
                                 </div><label for="read-more-checker1" class="read-more-button"></label>
                             {% endif %}
                         </div>
-                        <button class="primary-btn">Оставить отзыв</button>
+                        <button class="primary-btn">Применить</button>
                     </form>
-                    <script src="{% static 'js/localstorage.js' %}"></script>
-
-
-                    <!-- /aside Widget -->
-
-
-                    <!-- /aside Widget -->
                 </div>
-                <!-- /ASIDE -->
-
-                <!-- STORE -->
                 <div id="store" class="col-md-9">
-                    <div class="store-filter clearfix">
                     <h3 class="aside-title">{{ category.name }}</h3>
-
                     <div class="row infinite-container">
                         {% if object_list %}
                             {% for product in object_list %}
@@ -153,9 +116,6 @@
                             <h3 class="product-name">Такого товара нет</h3>
                         {% endif %}
                     </div>
-
-                    <!-- /store products -->
-                    <!-- store bottom filter -->
                     <div class="store-filter clearfix">
                         {% if page_obj.has_next %}
                             <a class="infinite-more-link"
@@ -163,13 +123,9 @@
                                id="pag">next</a>
                         {% endif %}
                     </div>
-                    <!-- /store bottom filter -->
                 </div>
-                <!-- /STORE -->
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
 {% endblock %}
 

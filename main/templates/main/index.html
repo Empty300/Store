@@ -1,13 +1,8 @@
 {% extends 'products/base.html' %}
 {% load static %}
 {% block content %}
-    <!-- SECTION -->
     <div class="section">
-        <!-- container -->
         <div class="container">
-            <!-- row -->
-            <div class="row">
-                <!-- shop -->
                 <div class="col-md-4 col-xs-6">
                     <div class="shop">
                         <div class="shop-img">
@@ -15,14 +10,11 @@
                         </div>
                         <div class="shop-body">
                             <h3>Ноутбуки<br></h3>
-                            <a href="{% url 'products:index' 11 %}" class="cta-btn">Купить<i
+                            <a href="{% url 'products:index' 11 %}?order=discount" class="cta-btn">Купить<i
                                     class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
-                <!-- /shop -->
-
-                <!-- shop -->
                 <div class="col-md-4 col-xs-6">
                     <div class="shop">
                         <div class="shop-img">
@@ -30,14 +22,11 @@
                         </div>
                         <div class="shop-body">
                             <h3>Наушники<br></h3>
-                            <a href="{% url 'products:index' 6 %}" class="cta-btn">Купить<i
+                            <a href="{% url 'products:index' 6 %}?order=discount" class="cta-btn">Купить<i
                                     class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
-                <!-- /shop -->
-
-                <!-- shop -->
                 <div class="col-md-4 col-xs-6">
                     <div class="shop">
                         <div class="shop-img">
@@ -45,36 +34,25 @@
                         </div>
                         <div class="shop-body">
                             <h3>Планшеты<br></h3>
-                            <a href="{% url 'products:index' 5 %}" class="cta-btn">купить<i
+                            <a href="{% url 'products:index' 5 %}?order=discount" class="cta-btn">купить<i
                                     class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
-                <!-- /shop -->
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
-    </div>
-    <!-- /SECTION -->
-
-    <!-- SECTION -->
     <div class="container">
-        <!-- row -->
         <div class="row">
             <div class="col-md-12">
                 <div class="section-title">
                     <h3 class="title">Товары с наибольшей скидкой</h3>
                 </div>
             </div>
-            <!-- /section title -->
             <div class="col-md-12">
                 <div class="row">
                     <div class="products-tabs">
-                        <!-- tab -->
                         <div id="tab1" class="tab-pane active">
                             <div class="products-slick" data-nav="#slick-nav-1">
-                                <!-- product -->
                                 {% for product in sale_prod %}
                                     <div class="product">
                                         <div class="product-img">
@@ -103,39 +81,22 @@
                                         </div>
                                     </div>
                                 {% endfor %}
-                                <!-- /product -->
                             </div>
                             <div id="slick-nav-1" class="products-slick-nav"></div>
                         </div>
-                        <!-- /tab -->
                     </div>
                 </div>
             </div>
-
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
-
-    <!-- /SECTION -->
-
-
-    <!-- SECTION -->
     <div class="section">
-        <!-- container -->
         <div class="container">
-            <!-- row -->
             <div class="row">
-
-                <!-- section title -->
                 <div class="col-md-12">
                     <div class="section-title">
                         <h3 class="title">Популярные товары</h3>
                     </div>
                 </div>
-                <!-- /section title -->
-
-                <!-- Products tab & slick -->
                 <div class="col-md-12">
                     <div class="row">
                         <div class="products-tabs">
@@ -176,25 +137,17 @@
                                             </div>
                                         </div>
                                     {% endfor %}
-
                                 </div>
                                 <div id="slick-nav-2" class="products-slick-nav"></div>
                             </div>
-                            <!-- /tab -->
                         </div>
                     </div>
                 </div>
-                <!-- /Products tab & slick -->
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
-    <!-- /SECTION -->
     <div>
         1
 
     </div>
-
-
 {% endblock %}
