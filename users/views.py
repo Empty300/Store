@@ -81,7 +81,7 @@ def password_reset(request):
         if user:
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            link = f'users/password_reset/new_pass/{uid}/{token}/'
+            link = f'/users/password_reset/new_pass/{uid}/{token}/'
             verification_link = f'{settings.DOMAIN_NAME}{link}'
             subject = f'Сброс пароля для {request.user.username}'
             message = 'Для сброса пароля {} перейдите по ссылке: {}'.format(
