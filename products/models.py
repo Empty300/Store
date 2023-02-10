@@ -16,6 +16,9 @@ class ProductCategory(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Категории товаров"
+
 
 class Product(models.Model):
     name = models.CharField(
@@ -98,6 +101,9 @@ class Product(models.Model):
     )
     stripe_product_price_id = models.CharField(max_length=128, blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = "Товары"
+
     def sum(self):
         all_stars = list()
         all_reviews = Reviews.objects.all().filter(product=self.id)
@@ -176,6 +182,8 @@ class Basket(models.Model):
             'sum': float(self.sum()),
         }
         return basket_item
+    class Meta:
+        verbose_name_plural = "Корзины"
 
 
 class Reviews(models.Model):
@@ -187,3 +195,6 @@ class Reviews(models.Model):
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name='Пользователь')
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE, verbose_name='Продукт')
+
+    class Meta:
+        verbose_name_plural = "Отзывы"

@@ -27,6 +27,9 @@ class Order(models.Model):
     status = models.SmallIntegerField(default=CREATED, choices=STATUSES)
     initiator = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name_plural = "Заказы"
+
     def __str__(self):
         return f'Order #{self.id}. {self.first_name} {self.last_name}'
 
